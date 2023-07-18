@@ -1,0 +1,6 @@
+^{:watch-dirs ["test" "src"]
+  :css-dirs ["resources/public/css"]
+  :auto-testing true
+   }
+^{:ring-server-options {:port 3011}}
+{:main island-city.core}

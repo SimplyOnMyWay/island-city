@@ -1,0 +1,4 @@
+^{:ring-server-options {:port 3012}}
+{:main island-city.core
+ :optimizations :advanced
+ :externs ["externs.js"]}
