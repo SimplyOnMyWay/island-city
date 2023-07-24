@@ -19,7 +19,6 @@
 ;; main quil functions
 (defn setup
   []
-                                        ;  (q/no-loop)
   (q/no-stroke)
   (q/stroke-weight (w 0.0005))
   (q/frame-rate 30)
@@ -27,21 +26,39 @@
                                         ;  (q/rect-mode :center)
   (q/ellipse-mode :center)
   {:image-name (q/load-image "/images/triskel-front-5.png")
+   :image-2 (q/load-image "/images/page0699.png")
+   :image-3 (q/load-image "/images/tommacandmickcollins-web1.png")
+   :image-4 (q/load-image "/images/PR66-001web-small.png")
+   :image-5 (q/load-image "/images/PatrickSt1800s.png")
+   :image-6 (q/load-image "/images/woman-on-bollard.png")
+;   :image-7 (q/load-image "/images/ph-ab-sk-33-025.png")
+;   :image-7 (q/load-image "/images/ph-ab-s-088-kyrl.png")                  
+;   :image-7 (q/load-image "/images/Cork-1545-Tower-of-London-Map-scaled-e1625825650959-1536x996.png")
+;   :image-7 (q/load-image "/images/Hardiman-Map-1585-1600-scaled.jpg")                     
+;   :image-7 (q/load-image "/images/canvas-island-city-patrick.png")
+;   :image-7 (q/load-image "/images/townsend-window.png")
+   :image-7 (q/load-image "/images/Perkin-Warbeck.png")                           
    :cntr 0})
 
 (defn update-state
   [state]
   {:image-name (:image-name state)
+   :image-2 (:image-2 state)
+   :image-3 (:image-3 state)
+   :image-4 (:image-4 state)
+   :image-5 (:image-5 state)
+   :image-6 (:image-6 state)
+   :image-7 (:image-7 state)                  
    :cntr  (inc (:cntr state))})
 
 (defn draw
   [state]
-  (let [im (:image-name state)]
-    (when (q/loaded? im)
-      (q/image im 0 0 (w 1.0) (h 1.0))))
 
+  ;; adjust origin for :p3d
+  (q/translate (w -0.5) (h -0.5))
 
-  (def amp 0.75)
+  ;; define alpha values
+    (def amp 0.75)
   (def omega 0.02)  
   (def alpha1 (* amp (q/sin (+  0 (* omega (:cntr state))))))
   (def alpha2 (* amp (q/sin (+ 10 (* omega (:cntr state))))))
@@ -53,6 +70,24 @@
   (def alpha8 (* amp (q/sin (+ 70 (* omega (:cntr state))))))      
 
   (def alpha 1.0)
+
+  ;; load images
+  (let [im (:image-name state)
+        im-2 (:image-2 state)
+        im-3 (:image-3 state)
+        im-4 (:image-4 state)      
+        im-5 (:image-5 state)
+        im-6 (:image-6 state)
+        im-7 (:image-7 state)]    
+    (when (q/loaded? im)
+                                        ;      (q/image im 0 0 (w 1.0) (h 1.0))
+      )
+    (when (q/loaded? im-2)
+;      (q/image im-2 (w 0.5) (h 0.25) (w 0.1) (w 0.1))
+      )
+    (when (q/loaded? im-7)
+      (q/tint 255 alpha1)
+      (q/image im-7 (w 0.25) (h 0.34) (w 0.5) (w 0.3)))    )
 
   (def pal1 [[355, 78, 85, alpha1],
              [169, 75, 65, alpha2],
@@ -75,7 +110,7 @@
 
   
   
-  ;; adjust for tiny offset 
+  ;; adjust for tiny offset
   (q/translate (w -0.0032) 0)
 
 ;  (q/stroke [0 100 30 1])
@@ -90,12 +125,12 @@
   (q/vertex (w 0.225) (h 0.33))  
   (q/vertex (w 0.775) (h 0.33))
   (q/vertex (w 0.775) (h 0.315))
-  (q/begin-contour)
-  (q/vertex (w 0.5) (h 0.06))
-  (q/vertex (w 0.76) (h 0.32))
-  (q/vertex (w 0.237) (h 0.32))
-  (q/end-contour)  
-  (q/end-shape)
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.5) (h 0.06))
+  ;; (q/vertex (w 0.76) (h 0.32))
+  ;; (q/vertex (w 0.237) (h 0.32))
+  ;; (q/end-contour)  
+  (q/end-shape :close)
   ;; inner top trianglar yoke!
   ;; (q/fill [50 100 50 alpha2])
   (q/fill (pal1 1))
@@ -103,11 +138,11 @@
   (q/vertex (w 0.5) (h 0.06))
   (q/vertex (w 0.237) (h 0.32))
   (q/vertex (w 0.76) (h 0.32))
-  (q/begin-contour)
-  (q/vertex (w 0.5) (h 0.087))
-  (q/vertex (w 0.737) (h 0.32))
-  (q/vertex (w 0.263) (h 0.32))
-  (q/end-contour)  
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.5) (h 0.087))
+  ;; (q/vertex (w 0.737) (h 0.32))
+  ;; (q/vertex (w 0.263) (h 0.32))
+  ;; (q/end-contour)  
   (q/end-shape)
 <
   ;; inner face of top triangular yoke
@@ -117,10 +152,10 @@
   (q/vertex (w 0.5) (h 0.087))
   (q/vertex (w 0.263) (h 0.32))
   (q/vertex (w 0.737) (h 0.32))
-  (q/begin-contour)
-  (doseq [theta (map #(* pi %) (range 1 2.01 0.01))]
-    (q/vertex (w (+ 0.5 (* 0.069 (q/cos theta)))) (h (+ 0.32 (* 0.123 (q/sin theta))))))
-  (q/end-contour)  
+  ;; (q/begin-contour)
+  ;; (doseq [theta (map #(* pi %) (range 1 2.01 0.01))]
+  ;;   (q/vertex (w (+ 0.5 (* 0.069 (q/cos theta)))) (h (+ 0.32 (* 0.123 (q/sin theta))))))
+  ;; (q/end-contour)  
   (q/end-shape)
 
   ;; semi circular arc
@@ -129,10 +164,10 @@
   (q/begin-shape)
   (doseq [theta (map #(* pi %) (range 1 2.01 0.01))]
     (q/vertex (w (+ 0.5 (* 0.069 (q/cos theta)))) (h (+ 0.32 (* 0.123 (q/sin theta))))))
-  (q/begin-contour)
-  (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
-    (q/vertex (w (+ 0.5 (* 0.06 (q/cos theta)))) (h (+ 0.32 (* 0.11 (q/sin theta))))))
-  (q/end-contour)  
+  ;; (q/begin-contour)
+  ;; (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
+  ;;   (q/vertex (w (+ 0.5 (* 0.06 (q/cos theta)))) (h (+ 0.32 (* 0.11 (q/sin theta))))))
+  ;; (q/end-contour)  
   (q/end-shape)
 
   ;; filled semi circular
@@ -158,14 +193,14 @@
   (q/vertex (w 0.465) (h 0.568))
   (q/vertex (w 0.465) (h 0.576))      
   (q/vertex (w 0.441) (h 0.576))
-  (q/begin-contour)
-  (q/vertex (w 0.483) (h 0.568))
-  (q/vertex (w 0.517) (h 0.568))
-  (q/vertex (w 0.517) (h 0.445))
-  (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
-    (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
-  (q/vertex (w 0.483) (h 0.445))
-  (q/end-contour)  
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.483) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.445))
+  ;; (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
+  ;;   (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
+  ;; (q/vertex (w 0.483) (h 0.445))
+  ;; (q/end-contour)  
   (q/end-shape)  
 
 ;;  (q/fill [30 100 80 0.5])
@@ -179,14 +214,14 @@
   (q/vertex (w 0.603) (h 0.375))
   (q/vertex (w 0.603) (h 0.57))
   (q/vertex (w 0.413) (h 0.57))  
-  (q/begin-contour)
-  (q/vertex (w 0.483) (h 0.568))
-  (q/vertex (w 0.517) (h 0.568))
-  (q/vertex (w 0.517) (h 0.445))
-  (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
-    (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
-  (q/vertex (w 0.483) (h 0.445))
-  (q/end-contour)
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.483) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.445))
+  ;; (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
+  ;;   (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
+  ;; (q/vertex (w 0.483) (h 0.445))
+  ;; (q/end-contour)
   (q/end-shape)
   (q/pop-matrix)
 
@@ -199,14 +234,14 @@
   (q/vertex (w 0.586) (h 0.375))
   (q/vertex (w 0.586) (h 0.57))
   (q/vertex (w 0.398) (h 0.57))  
-  (q/begin-contour)
-  (q/vertex (w 0.483) (h 0.568))
-  (q/vertex (w 0.517) (h 0.568))
-  (q/vertex (w 0.517) (h 0.445))
-  (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
-    (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
-  (q/vertex (w 0.483) (h 0.445))
-  (q/end-contour)
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.483) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.568))
+  ;; (q/vertex (w 0.517) (h 0.445))
+  ;; (doseq [theta (map #(* pi %) (reverse (range 1 2.01 0.01)))]
+  ;;   (q/vertex (w (+ 0.5 (* 0.016 (q/cos theta)))) (h (+ 0.445 (* 0.027 (q/sin theta))))))    
+  ;; (q/vertex (w 0.483) (h 0.445))
+  ;; (q/end-contour)
   (q/end-shape)
   (q/pop-matrix)
 
@@ -221,12 +256,12 @@
   (q/vertex (w 0.54) (h 0.375))
   (q/vertex (w 0.54) (h 0.655))
   (q/vertex (w 0.398) (h 0.655))  
-  (q/begin-contour)
-  (q/vertex (w 0.465) (h 0.595))
-  (q/vertex (w 0.5) (h 0.595))
-  (q/vertex (w 0.5) (h 0.45))
-  (q/vertex (w 0.465) (h 0.45))
-  (q/end-contour)
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.465) (h 0.595))
+  ;; (q/vertex (w 0.5) (h 0.595))
+  ;; (q/vertex (w 0.5) (h 0.45))
+  ;; (q/vertex (w 0.465) (h 0.45))
+  ;; (q/end-contour)
   (q/end-shape)
   (q/pop-matrix)
 
@@ -237,12 +272,12 @@
   (q/vertex (w 0.54) (h 0.375))
   (q/vertex (w 0.54) (h 0.655))
   (q/vertex (w 0.398) (h 0.655))  
-  (q/begin-contour)
-  (q/vertex (w 0.438) (h 0.595))
-  (q/vertex (w 0.472) (h 0.595))
-  (q/vertex (w 0.472) (h 0.45))
-  (q/vertex (w 0.438) (h 0.45))
-  (q/end-contour)
+  ;; (q/begin-contour)
+  ;; (q/vertex (w 0.438) (h 0.595))
+  ;; (q/vertex (w 0.472) (h 0.595))
+  ;; (q/vertex (w 0.472) (h 0.45))
+  ;; (q/vertex (w 0.438) (h 0.45))
+  ;; (q/end-contour)
   (q/end-shape)
   (q/pop-matrix)
   

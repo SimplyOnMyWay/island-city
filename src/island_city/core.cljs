@@ -8,8 +8,8 @@
 (defn ^:export run-sketch []
   (q/defsketch island-city
     :host "island-city"
-    :size [(/ 1920 1.6) (/ 1080 1.6)]
-    :renderer :p2d
+    :size [(/ 1920 1) (/ 1080 1)]
+    :renderer :p3d
     :setup dynamic/setup
     :update dynamic/update-state
     :draw dynamic/draw

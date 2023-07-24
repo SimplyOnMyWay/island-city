@@ -2,5 +2,5 @@
   :css-dirs ["resources/public/css"]
   :auto-testing true
    }
-^{:ring-server-options {:port 3011}}
+^{:ring-server-options {:port 3012}}
 {:main island-city.core}
